@@ -98,6 +98,7 @@ sctp_send(int s, const void *msg, size_t len,
 		cmsg->cmsg_type = SCTP_SNDRCV;
 		cmsg->cmsg_len = CMSG_LEN(sizeof(struct sctp_sndrcvinfo));
 
+		outmsg.msg_control = NULL;
 		outmsg.msg_controllen = cmsg->cmsg_len;
 		memcpy(CMSG_DATA(cmsg), sinfo, sizeof(struct sctp_sndrcvinfo));
 	}
