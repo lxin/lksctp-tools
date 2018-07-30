@@ -256,7 +256,7 @@ void data_received(struct msghdr *inmessage, int len, int stream, int socket) {
 			(char *)inmessage->msg_iov->iov_base);
 
 		if (active) {
-			sctp_sendmsg(socket,
+			error = sctp_sendmsg(socket,
 				ping,
 				strlen(ping) + 1,
 				(struct sockaddr *)&server_loop,
@@ -265,6 +265,10 @@ void data_received(struct msghdr *inmessage, int len, int stream, int socket) {
 				0,
 				stream,
 				0, 0);
+			if (error < 0) {
+				printf("Send Failure: %s.\n", strerror(errno));
+				DUMP_CORE;
+			}
 		}
 	}
 }
